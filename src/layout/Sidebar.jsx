@@ -1,4 +1,4 @@
-import { Input, message } from 'antd'
+import { Input, Popover, Tooltip, message } from 'antd'
 import React, { useState } from 'react'
 import { SearchOutlined } from '@ant-design/icons'
 import { FiEdit, FiLogOut } from 'react-icons/fi'
@@ -35,6 +35,19 @@ const Sidabar = () => {
   const navigate = useNavigate()
 
   const [selectedItemId, setSelectedItemId] = useState(null)
+  const [isDark, setIsDark] = useState(false)
+
+  const handleDarkMode = () => {
+    setIsDark(!isDark)
+    const html = document.querySelector('html')
+    if (!isDark) {
+      html.classList.add('dark')
+      localStorage.setItem('darkmode', 'dark')
+    } else {
+      html.classList.remove('dark')
+      localStorage.setItem('darkmode', 'light')
+    }
+  }
 
   const handleItemClick = (id) => {
     navigate(`/${id}`)
@@ -49,32 +62,50 @@ const Sidabar = () => {
   }
 
   return (
-    <div className="w-full h-full p-3">
+    <div className="w-full h-full p-3 dark:bg-bgDark">
       <div className=" w-full h-[18%]">
-        <div className="h-[50px]  p-1 flex justify-between items-center">
+        <div className="h-[50px]  p-1 flex justify-between items-center ">
           <div>
-            <p className="text-xl font-semibold">Chats</p>
+            <p className="text-xl font-semibold dark:text-white">Chats</p>
           </div>
-          <div className="flex gap-5 text-xl font-light">
-            <button>
-              <FiEdit />
-            </button>
+          <div className="flex gap-5 text-xl font-light dark:text-white">
+            <Tooltip placement="rightTop" title={'New Chat'}>
+              <button>
+                <FiEdit />
+              </button>
+            </Tooltip>
 
-            <button>
-              <MdOutlineDarkMode />
-            </button>
+            <Tooltip placement="rightTop" title={'Dark Mode'}>
+              <button
+                className="font-medium cursor-pointer  rounded-md border-slate-300 shadow-md"
+                onClick={() => handleDarkMode()}
+              >
+                {isDark ? <MdOutlineDarkMode /> : <MdDarkMode />}
+              </button>
+            </Tooltip>
 
-            <button onClick={() => handleLogout()}>
-              <FiLogOut />
-            </button>
+            <Tooltip placement="rightTop" title={'Logout'}>
+              <button onClick={() => handleLogout()}>
+                <FiLogOut />
+              </button>
+            </Tooltip>
           </div>
         </div>
-        <div className="h-[50px] flex justify-center items-center">
-          <Input
+        <div className={`relative w-[95%] mx-auto`}>
+          <input
+            type="text"
             placeholder="Search or start a new chat"
-            prefix={<SearchOutlined />}
-            className="w-[95%]"
+            className={`w-full py-2 pl-8 pr-4 rounded-full focus:outline-none ${
+              isDark
+                ? 'bg-bgDark text-white'
+                : 'bg-white dark:bg-bgDark text-black dark:text-white'
+            }`}
           />
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+            <SearchOutlined
+              className={`h-5 w-5 ${isDark ? 'text-white' : 'text-black'}`}
+            />
+          </span>
         </div>
       </div>
       <div className="w-full h-[82%] overflow-y-scroll  ">

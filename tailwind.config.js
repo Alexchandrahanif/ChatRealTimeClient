@@ -18,6 +18,10 @@ module.exports = {
         grey: '#19182580',
         orenmuda: '#FACD4914',
         hijau: '#165C5D',
+        textDark2: '#D1D5DB',
+        textDark: '#D1D5DB',
+        bgLigth: '#E5E7EB',
+        bgDark: '#001524',
       },
     },
     screens: {

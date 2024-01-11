@@ -39,7 +39,7 @@ const LoginPage = () => {
     <div className="w-screen h-screen bg-slate-50 flex items-center">
       <div className="w-[60%] h-full p-5 flex justify-center items-center">
         <div className=" h-full w-full bg-slate-400 rounded-xl ">
-          <img src={Login} alt="" className="h-full w-full" />
+          <img src={Login} alt="" className="rounded-xl" />
         </div>
       </div>
       <div className="w-[40%] h-full bg-slate-50 flex justify-center items-center">

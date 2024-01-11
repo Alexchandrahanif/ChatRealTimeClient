@@ -51,7 +51,7 @@ const RegisterPage = () => {
     <div className="w-screen h-screen bg-slate-50 flex items-center jus">
       <div className="w-[35%] h-full  flex justify-center items-center">
         <div className=" h-full w-full bg-slate-400">
-          <img src={Register} alt="" className="w-full h-full" />
+          <img src={Register} alt="" className="w-full h-full object-cover" />
         </div>
       </div>
       <div className="w-[65%] h-full bg-slate-50 flex justify-center items-center">

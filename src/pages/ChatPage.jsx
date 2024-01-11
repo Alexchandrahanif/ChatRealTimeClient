@@ -5,7 +5,9 @@ const ChatPage = () => {
   const { id } = useParams()
   return (
     <div className="w-full h-full flex justify-center items-center">
-      <div>Halaman Chat Dengan Id {id}</div>
+      {/* <div>Halaman Chat Dengan Id {id}</div> */}
+
+      
     </div>
   )
 }

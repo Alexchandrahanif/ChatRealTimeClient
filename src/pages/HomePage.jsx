@@ -2,7 +2,11 @@ import React from 'react'
 
 const HomePage = () => {
   return (
-    <div>HomePage</div>
+    <div className="w-full h-full flex justify-center items-center ">
+      <div>
+        <p>HomePage</p>
+      </div>
+    </div>
   )
 }
 
