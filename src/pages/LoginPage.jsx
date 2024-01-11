@@ -1,19 +1,50 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
-import { Button, Input, Space } from 'antd'
+import { Button, Input, Space, message } from 'antd'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Login } from '../assets'
+import axios from 'axios'
 
 const LoginPage = () => {
   const navigate = useNavigate()
   const [passwordVisible, setPasswordVisible] = React.useState(false)
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleSubmit = async (e) => {
+    try {
+      let body = {
+        email,
+        password,
+      }
+
+      let { data } = await axios({
+        url: 'http://localhost:3000/user/login',
+        method: 'POST',
+        data: body,
+      })
+
+      navigate('/')
+      message.success(`Selamat Datang ${data.username}!`)
+      localStorage.setItem('authorization', data.authorization)
+      localStorage.setItem('username', data.username)
+      localStorage.setItem('email', data.email)
+    } catch (error) {
+      message.error(error.response.data.message)
+    }
+  }
+
   return (
     <div className="w-screen h-screen bg-slate-50 flex items-center">
       <div className="w-[60%] h-full p-5 flex justify-center items-center">
-        <div className=" h-full w-full bg-slate-400 rounded-xl"></div>
+        <div className=" h-full w-full bg-slate-400 rounded-xl ">
+          <img src={Login} alt="" className="h-full w-full" />
+        </div>
       </div>
       <div className="w-[40%] h-full bg-slate-50 flex justify-center items-center">
         <div className="w-[400px]">
-          <div className="text-sky-900 font-bold mb-3">
+          <div className="text-hijau font-bold mb-3">
             <p className="text-[25px]">LOGIN</p>
           </div>
           <div className="text-slate-400 text-lg mb-5">
@@ -26,7 +57,15 @@ const LoginPage = () => {
               <label htmlFor="email" className="text-slate-500">
                 Email
               </label>
-              <Input placeholder="Input Your Email" size="large" />
+              <Input
+                placeholder="Input Your Email"
+                size="large"
+                autoComplete="off"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                }}
+              />
             </div>
 
             <div>
@@ -39,11 +78,19 @@ const LoginPage = () => {
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }
+                autoComplete="off"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                }}
               />
             </div>
 
             <div className="mt-5">
-              <button className="w-full h-[40px] bg-green-600 text-white font-bold">
+              <button
+                className="w-full h-[40px] bg-hijau text-white font-bold"
+                onClick={(e) => handleSubmit(e)}
+              >
                 Login
               </button>
             </div>
@@ -52,7 +99,7 @@ const LoginPage = () => {
               <p className="text-slate-500">
                 Don't have an account?{' '}
                 <span
-                  className="text-sky-900 hover:cursor-pointer"
+                  className="text-hijau hover:cursor-pointer"
                   onClick={() => navigate('/register')}
                 >
                   register

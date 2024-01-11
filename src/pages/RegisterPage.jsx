@@ -4,6 +4,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Notification from '../utils/Notification'
+import { Register } from '../assets'
 
 const RegisterPage = () => {
   const navigate = useNavigate()
@@ -49,11 +50,13 @@ const RegisterPage = () => {
   return (
     <div className="w-screen h-screen bg-slate-50 flex items-center jus">
       <div className="w-[35%] h-full  flex justify-center items-center">
-        <div className=" h-full w-full bg-slate-400"></div>
+        <div className=" h-full w-full bg-slate-400">
+          <img src={Register} alt="" className="w-full h-full" />
+        </div>
       </div>
       <div className="w-[65%] h-full bg-slate-50 flex justify-center items-center">
         <div className="w-full p-10">
-          <div className="text-sky-900 font-bold mb-3">
+          <div className="text-hijau font-bold mb-3">
             <p className="text-[25px]">REGISTER</p>
           </div>
 
@@ -150,7 +153,7 @@ const RegisterPage = () => {
 
             <div className="mt-5 w-[48%]">
               <button
-                className="w-full h-[40px] text-black font-bold border-[2px] border-black"
+                className="w-full h-[40px] text-hijau font-bold border-[2px] border-hijau"
                 onClick={() => navigate('/login')}
               >
                 Cancel
@@ -158,7 +161,7 @@ const RegisterPage = () => {
             </div>
             <div className="mt-5 w-[48%]">
               <button
-                className="w-full h-[40px] bg-green-600 text-white font-bold"
+                className="w-full h-[40px] bg-hijau text-white font-bold"
                 onClick={(e) => handleSubmit(e)}
               >
                 Login
@@ -169,7 +172,7 @@ const RegisterPage = () => {
               <p className="text-slate-500">
                 Already have an account?{' '}
                 <span
-                  className="text-sky-900 hover:cursor-pointer"
+                  className="text-hijau hover:cursor-pointer"
                   onClick={() => navigate('/login')}
                 >
                   Login

@@ -1,5 +1,5 @@
-import { Input } from 'antd'
-import React from 'react'
+import { Input, message } from 'antd'
+import React, { useState } from 'react'
 import { SearchOutlined } from '@ant-design/icons'
 import { FiEdit, FiLogOut } from 'react-icons/fi'
 import { PiChecksBold } from 'react-icons/pi'
@@ -29,40 +29,25 @@ let data = [
     jam: '10:10',
     last: 'Oke Bang mantap bener dah pokoknya mantap',
   },
-  {
-    id: 6,
-    nama: 'Alex Chandra',
-    jam: '10:10',
-    last: 'Oke Bang mantap bener dah pokoknya mantap',
-  },
-  {
-    id: 7,
-    nama: 'Alex Chandra',
-    jam: '10:10',
-    last: 'Oke Bang mantap bener dah pokoknya mantap',
-  },
-  {
-    id: 8,
-    nama: 'Alex Chandra',
-    jam: '10:10',
-    last: 'Oke Bang',
-  },
-  {
-    id: 9,
-    nama: 'Alex Chandra',
-    jam: '10:10',
-    last: 'Oke Bang',
-  },
-  {
-    id: 10,
-    nama: 'Alex Chandra',
-    jam: '10:10',
-    last: 'Oke Bang',
-  },
 ]
 
 const Sidabar = () => {
   const navigate = useNavigate()
+
+  const [selectedItemId, setSelectedItemId] = useState(null)
+
+  const handleItemClick = (id) => {
+    navigate(`/${id}`)
+    setSelectedItemId(id)
+  }
+  const handleLogout = () => {
+    message.success(
+      `Selamat datang kembali ${localStorage.getItem('username')}`
+    )
+    localStorage.clear()
+    navigate('/login')
+  }
+
   return (
     <div className="w-full h-full p-3">
       <div className=" w-full h-[18%]">
@@ -79,7 +64,7 @@ const Sidabar = () => {
               <MdOutlineDarkMode />
             </button>
 
-            <button>
+            <button onClick={() => handleLogout()}>
               <FiLogOut />
             </button>
           </div>
@@ -96,11 +81,15 @@ const Sidabar = () => {
         <div className="flex flex-col gap-1">
           {data
             ? data?.map((el) => {
+                const isSelected = el.id === selectedItemId
+
                 return (
                   <div
-                    className="h-[60px] w-full flex p-1 hover:bg-slate-100"
+                    className={`h-[60px] w-full flex p-2 rounded-lg ${
+                      isSelected ? 'bg-slate-100' : ''
+                    }`}
                     key={el.id}
-                    onClick={() => navigate(`/${el.id}`)}
+                    onClick={() => handleItemClick(el.id)}
                   >
                     <div className="w-[15%] flex justify-center items-center">
                       <img
