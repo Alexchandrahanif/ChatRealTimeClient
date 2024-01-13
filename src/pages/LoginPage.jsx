@@ -13,6 +13,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
 
   const handleSubmit = async (e) => {
+    e.preventDefault()
     try {
       let body = {
         email,
@@ -25,11 +26,11 @@ const LoginPage = () => {
         data: body,
       })
 
-      navigate('/')
-      message.success(`Selamat Datang ${data.username}!`)
       localStorage.setItem('authorization', data.authorization)
       localStorage.setItem('username', data.username)
       localStorage.setItem('email', data.email)
+      message.success(`Selamat Datang ${data.username}!`)
+      navigate('/')
     } catch (error) {
       message.error(error.response.data.message)
     }

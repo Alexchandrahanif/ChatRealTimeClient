@@ -27,16 +27,15 @@ const router = createBrowserRouter([
       return null
     },
   },
-
   {
     path: '/',
     element: <Layout />,
-    // loader: () => {
-    //   if (!localStorage.getItem('authrization')) {
-    //     throw redirect('/login')
-    //   }
-    //   return null
-    // },
+    loader: () => {
+      if (!localStorage.getItem('authorization')) {
+        throw redirect('/login')
+      }
+      return null
+    },
     children: [
       {
         path: '/',

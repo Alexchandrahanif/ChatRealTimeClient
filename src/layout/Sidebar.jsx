@@ -4,7 +4,9 @@ import { SearchOutlined } from '@ant-design/icons'
 import { FiEdit, FiLogOut } from 'react-icons/fi'
 import { PiChecksBold } from 'react-icons/pi'
 import { CiLogout } from 'react-icons/ci'
-import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md'
+import { RiContactsBookLine, RiContactsBookFill } from 'react-icons/ri'
+import { HiEllipsisVertical } from 'react-icons/hi2'
+import { MdDarkMode, MdOutlineDarkMode, MdManageAccounts } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import potongString from '../utils/String'
 
@@ -31,11 +33,61 @@ let data = [
   },
 ]
 
+let dataContact = [
+  {
+    id: 1,
+    nama: 'Alex Chandra Hanif',
+    about: 'Sibuk',
+  },
+  { id: 2, nama: 'Saber Roam', about: 'Sibuk' },
+  { id: 3, nama: 'Kagura', about: 'Sibuk' },
+  {
+    id: 4,
+    nama: 'Zilong',
+    about: 'Sibuk',
+  },
+  {
+    id: 5,
+    nama: 'Pascol',
+    about: 'Sibuk',
+  },
+  {
+    id: 6,
+    nama: 'Natan',
+    about: 'Sibuk',
+  },
+  {
+    id: 7,
+    nama: 'Balmond',
+    about: 'Sibuk',
+  },
+  {
+    id: 8,
+    nama: 'Hababi',
+    about: 'Sibuk',
+  },
+  {
+    id: 9,
+    nama: 'Cyclops',
+    about: 'Sibuk',
+  },
+  {
+    id: 10,
+    nama: 'Vale',
+    about: 'Sibuk',
+  },
+]
+
 const Sidabar = () => {
   const navigate = useNavigate()
 
   const [selectedItemId, setSelectedItemId] = useState(null)
   const [isDark, setIsDark] = useState(false)
+  const [openContact, setOpenContact] = useState(false)
+
+  const handleOpenChange = (newOpen) => {
+    setOpenContact(newOpen)
+  }
 
   const handleDarkMode = () => {
     setIsDark(!isDark)
@@ -53,6 +105,7 @@ const Sidabar = () => {
     navigate(`/${id}`)
     setSelectedItemId(id)
   }
+
   const handleLogout = () => {
     message.success(
       `Selamat datang kembali ${localStorage.getItem('username')}`
@@ -61,45 +114,128 @@ const Sidabar = () => {
     navigate('/login')
   }
 
+  const contentTitik3 = (
+    <div className={`flex flex-col w-[90px] gap-1 `}>
+      <button
+        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-slate-100"
+        // onClick={() => handleLogout()}
+      >
+        <MdManageAccounts /> Profile
+      </button>
+      <button
+        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md gap-1 hover:bg-slate-100 "
+        // onClick={() => handleDarkMode()}
+      >
+        {isDark ? <RiContactsBookLine /> : <RiContactsBookFill />}
+        Contact
+      </button>
+      <button
+        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md gap-1 hover:bg-slate-100 "
+        onClick={() => handleDarkMode()}
+      >
+        {isDark ? <MdOutlineDarkMode /> : <MdDarkMode />}{' '}
+        {isDark ? 'Light' : 'Dark'}
+      </button>
+      <button
+        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-slate-100"
+        onClick={() => handleLogout()}
+      >
+        <FiLogOut /> Logout
+      </button>
+    </div>
+  )
+
+  const contentContact = (
+    <div className="w-[250px]">
+      <div className="w-full">
+        <Input placeholder="Search user" size="small" />
+      </div>
+      <div className="w-full mt-5 flex flex-col h-[400px] overflow-y-scroll">
+        {dataContact
+          ? dataContact.map((el) => {
+              return (
+                <div key={el.id}>
+                  <div
+                    className={`h-[60px] w-full flex p-2 rounded-lg hover:bg-slate-100`}
+                    key={el.id}
+                    onClick={() => {
+                      message.success(`Mulai chat dengan ${el.nama}`)
+                    }}
+                  >
+                    <div className="w-[20%] flex justify-center items-center">
+                      <img
+                        src="https://image.gambarpng.id/pngs/gambar-transparent-boy-cartoon-illustration_46930.png"
+                        alt="profile"
+                        className="w-[45px] h-[45px] rounded-full"
+                      />
+                    </div>
+                    <div className="w-[80%] px-2 ">
+                      <div className=" w-full flex justify-between ">
+                        <div>
+                          <p className="text-[15px] font-semibold">{el.nama}</p>
+                        </div>
+                        <div>
+                          <p className="text-[12px] font-poppins text-slate-600 ">
+                            {el.jam}
+                          </p>
+                        </div>
+                      </div>
+                      <div className=" w-full flex items-center gap-1 text-slate-600 ">
+                        <div>
+                          <p className="text-[13px] ">
+                            {potongString(el.about, 35)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          : null}
+      </div>
+    </div>
+  )
+
   return (
     <div className="w-full h-full p-3 dark:bg-bgDark">
       <div className=" w-full h-[18%]">
-        <div className="h-[50px]  p-1 flex justify-between items-center ">
-          <div>
+        <div className="w-full h-[50px]  p-1 flex justify-between items-center ">
+          <div className="w-[80%] ">
             <p className="text-xl font-semibold dark:text-white">Chats</p>
           </div>
-          <div className="flex gap-5 text-xl font-light dark:text-white">
-            <Tooltip placement="rightTop" title={'New Chat'}>
-              <button>
-                <FiEdit />
-              </button>
-            </Tooltip>
-
-            <Tooltip placement="rightTop" title={'Dark Mode'}>
-              <button
-                className="font-medium cursor-pointer  rounded-md border-slate-300 shadow-md"
-                onClick={() => handleDarkMode()}
+          <div className="w-[20%] flex  text-xl font-light dark:text-white">
+            <div className="w-1/2 flex justify-center items-center ">
+              <Popover
+                content={contentContact}
+                title="New Chat"
+                trigger="click"
+                placement="bottomLeft"
+                open={openContact}
+                onOpenChange={handleOpenChange}
               >
-                {isDark ? <MdOutlineDarkMode /> : <MdDarkMode />}
-              </button>
-            </Tooltip>
+                <button>
+                  <FiEdit />
+                </button>
+              </Popover>
+            </div>
 
-            <Tooltip placement="rightTop" title={'Logout'}>
-              <button onClick={() => handleLogout()}>
-                <FiLogOut />
-              </button>
-            </Tooltip>
+            <div className="w-1/2 flex justify-center items-center">
+              <Popover placement="bottomLeft" content={contentTitik3}>
+                <HiEllipsisVertical className="text-[25px]" />
+              </Popover>
+            </div>
           </div>
         </div>
         <div className={`relative w-[95%] mx-auto`}>
           <input
             type="text"
             placeholder="Search or start a new chat"
-            className={`w-full py-2 pl-8 pr-4 rounded-full focus:outline-none ${
+            className={`w-full py-2 pl-8 pr-4 rounded-lg focus:outline-none ${
               isDark
                 ? 'bg-bgDark text-white'
                 : 'bg-white dark:bg-bgDark text-black dark:text-white'
-            }`}
+            } border-[1px] border-slate-400`}
           />
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
             <SearchOutlined
@@ -108,6 +244,7 @@ const Sidabar = () => {
           </span>
         </div>
       </div>
+      {/* Chat */}
       <div className="w-full h-[82%] overflow-y-scroll  ">
         <div className="flex flex-col gap-1">
           {data
@@ -129,18 +266,18 @@ const Sidabar = () => {
                         className="w-[45px] h-[45px] rounded-full"
                       />
                     </div>
-                    <div className="w-[85%] px-2 ">
-                      <div className=" w-full flex justify-between">
+                    <div className="w-[85%] px-2 dark:text-white">
+                      <div className=" w-full flex justify-between ">
                         <div>
                           <p className="text-[15px] font-semibold">{el.nama}</p>
                         </div>
                         <div>
-                          <p className="text-[12px] font-poppins text-slate-600">
+                          <p className="text-[12px] font-poppins text-slate-600 dark:text-white">
                             {el.jam}
                           </p>
                         </div>
                       </div>
-                      <div className=" w-full flex items-center gap-1 text-slate-600">
+                      <div className=" w-full flex items-center gap-1 text-slate-600 dark:text-white">
                         <div>
                           <p className="text-[13px] ">
                             <PiChecksBold />
