@@ -8,7 +8,7 @@ const Layout = () => {
       <div className="w-[30%] h-full ">
         <Sidabar />
       </div>
-      <div className="bg-slate-200 w-[70%]">
+      <div className="w-[70%]">
         <Outlet />
       </div>
     </div>

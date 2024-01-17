@@ -31,6 +31,36 @@ let data = [
     jam: '10:10',
     last: 'Oke Bang mantap bener dah pokoknya mantap',
   },
+  {
+    id: 6,
+    nama: 'Alex Chandra',
+    jam: '10:10',
+    last: 'Oke Bang mantap bener dah pokoknya mantap',
+  },
+  {
+    id: 7,
+    nama: 'Alex Chandra',
+    jam: '10:10',
+    last: 'Oke Bang mantap bener dah pokoknya mantap',
+  },
+  {
+    id: 8,
+    nama: 'Alex Chandra',
+    jam: '10:10',
+    last: 'Oke Bang mantap bener dah pokoknya mantap',
+  },
+  {
+    id: 9,
+    nama: 'Alex Chandra',
+    jam: '10:10',
+    last: 'Oke Bang mantap bener dah pokoknya mantap',
+  },
+  {
+    id: 10,
+    nama: 'Alex Chandra',
+    jam: '10:10',
+    last: 'Oke Bang mantap bener dah pokoknya mantap',
+  },
 ]
 
 let dataContact = [
@@ -231,11 +261,11 @@ const Sidabar = () => {
           <input
             type="text"
             placeholder="Search or start a new chat"
-            className={`w-full py-2 pl-8 pr-4 rounded-lg focus:outline-none ${
+            className={`w-full py-1 pl-8 pr-4 rounded-md focus:outline-none ${
               isDark
                 ? 'bg-bgDark text-white'
                 : 'bg-white dark:bg-bgDark text-black dark:text-white'
-            } border-[1px] border-slate-400`}
+            } border-[1px] border-slate-200`}
           />
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
             <SearchOutlined
