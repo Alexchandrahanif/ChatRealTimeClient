@@ -103,10 +103,10 @@ const ChatPage = () => {
         </div>
         {/* Phone/Video */}
         <div className="h-full flex shadow-sm mr-2">
-          <div className=" w-[50px] text-[21px] flex justify-center items-center  border-[1px] border-slate-200 hover:cursor-pointer hover:bg-slate-100 rounded-l-md">
+          <div className=" w-[50px] text-[17px] flex justify-center items-center  border-[1px] border-slate-200 hover:cursor-pointer hover:bg-slate-100 rounded-l-md">
             <HiOutlinePhone />
           </div>
-          <div className=" w-[50px] text-[21px] flex justify-center items-center  border-[1px] border-slate-200 hover:cursor-pointer hover:bg-slate-100 rounded-r-md">
+          <div className=" w-[50px] text-[17px] flex justify-center items-center  border-[1px] border-slate-200 hover:cursor-pointer hover:bg-slate-100 rounded-r-md">
             <HiOutlineVideoCamera />
           </div>
         </div>

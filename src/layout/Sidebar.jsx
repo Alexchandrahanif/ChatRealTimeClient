@@ -156,7 +156,7 @@ const Sidabar = () => {
   const contentTitik3 = (
     <div className={`flex flex-col w-[90px] gap-1 `}>
       <button
-        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-slate-100"
+        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-sky-700 hover:text-white"
         onClick={() => handleLogout()}
       >
         <FiLogOut /> Logout
@@ -318,7 +318,7 @@ const Sidabar = () => {
                     <div
                       className={`h-[60px] w-full flex p-2 rounded-lg ${
                         isSelected ? 'bg-sky-700 text-white' : ''
-                      }`}
+                      } hover:bg-sky-600 hover:text-white`}
                       key={el.id}
                       onClick={() => handleItemClick(el.id)}
                     >
@@ -337,20 +337,12 @@ const Sidabar = () => {
                             </p>
                           </div>
                           <div>
-                            <p
-                              className={`text-[12px] font-poppins  dark:text-white ${
-                                isSelected ? 'text-white' : 'text-black'
-                              }`}
-                            >
+                            <p className={`text-[12px] font-poppins`}>
                               {el.jam}
                             </p>
                           </div>
                         </div>
-                        <div
-                          className={`w-full flex items-center gap-1  dark:text-white ${
-                            isSelected ? 'text-white' : 'text-black'
-                          }`}
-                        >
+                        <div className={`w-full flex items-center gap-1`}>
                           <div>
                             <p className="text-[13px] ">
                               <PiChecksBold />
