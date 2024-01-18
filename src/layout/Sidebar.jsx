@@ -1,5 +1,6 @@
 import { Input, Popover, Tooltip, message } from 'antd'
 import React, { useState } from 'react'
+
 import { SearchOutlined } from '@ant-design/icons'
 import { FiEdit, FiLogOut } from 'react-icons/fi'
 import { PiChecksBold } from 'react-icons/pi'
@@ -7,8 +8,16 @@ import { CiLogout } from 'react-icons/ci'
 import { RiContactsBookLine, RiContactsBookFill } from 'react-icons/ri'
 import { HiEllipsisVertical } from 'react-icons/hi2'
 import { MdDarkMode, MdOutlineDarkMode, MdManageAccounts } from 'react-icons/md'
+import {
+  IoChatbubbleEllipsesOutline,
+  IoChatbubblesOutline,
+  IoCallOutline,
+  IoSettingsOutline,
+} from 'react-icons/io5'
+
 import { useNavigate } from 'react-router-dom'
 import potongString from '../utils/String'
+import { Logo } from '../assets'
 
 let data = [
   {
@@ -148,26 +157,6 @@ const Sidabar = () => {
     <div className={`flex flex-col w-[90px] gap-1 `}>
       <button
         className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-slate-100"
-        // onClick={() => handleLogout()}
-      >
-        <MdManageAccounts /> Profile
-      </button>
-      <button
-        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md gap-1 hover:bg-slate-100 "
-        // onClick={() => handleDarkMode()}
-      >
-        {isDark ? <RiContactsBookLine /> : <RiContactsBookFill />}
-        Contact
-      </button>
-      <button
-        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md gap-1 hover:bg-slate-100 "
-        onClick={() => handleDarkMode()}
-      >
-        {isDark ? <MdOutlineDarkMode /> : <MdDarkMode />}{' '}
-        {isDark ? 'Light' : 'Dark'}
-      </button>
-      <button
-        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-slate-100"
         onClick={() => handleLogout()}
       >
         <FiLogOut /> Logout
@@ -228,102 +217,157 @@ const Sidabar = () => {
   )
 
   return (
-    <div className="w-full h-full p-3 dark:bg-bgDark">
-      <div className=" w-full h-[18%]">
-        <div className="w-full h-[50px]  p-1 flex justify-between items-center ">
-          <div className="w-[80%] ">
-            <p className="text-xl font-semibold dark:text-white">Chats</p>
-          </div>
-          <div className="w-[20%] flex  text-xl font-light dark:text-white">
-            <div className="w-1/2 flex justify-center items-center ">
-              <Popover
-                content={contentContact}
-                title="New Chat"
-                trigger="click"
-                placement="bottomLeft"
-                open={openContact}
-                onOpenChange={handleOpenChange}
-              >
-                <button>
-                  <FiEdit />
-                </button>
-              </Popover>
-            </div>
-
-            <div className="w-1/2 flex justify-center items-center">
-              <Popover placement="bottomLeft" content={contentTitik3}>
-                <HiEllipsisVertical className="text-[25px]" />
-              </Popover>
-            </div>
+    <div className=" flex w-full h-full dark:bg-bgDark">
+      {/* Kiri */}
+      <div className="w-[15%] h-full flex flex-col justify-between bg-slate-100 dark:bg-slate-800">
+        <div className="w-full h-[70px] flex justify-center items-center my-4">
+          <div className="w-[45px] h-[45px] bg-white rounded-md">
+            <img src={Logo} alt="Logo" />
           </div>
         </div>
-        <div className={`relative w-[95%] mx-auto`}>
-          <input
-            type="text"
-            placeholder="Search or start a new chat"
-            className={`w-full py-1 pl-8 pr-4 rounded-md focus:outline-none ${
-              isDark
-                ? 'bg-bgDark text-white'
-                : 'bg-white dark:bg-bgDark text-black dark:text-white'
-            } border-[1px] border-slate-200`}
-          />
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
-            <SearchOutlined
-              className={`h-5 w-5 ${isDark ? 'text-white' : 'text-black'}`}
+        <div className="w-full h-full flex flex-col justify-start items-center gap-2 ">
+          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
+            <IoChatbubbleEllipsesOutline />
+          </div>
+          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
+            <IoChatbubblesOutline />
+          </div>
+          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
+            <RiContactsBookLine />
+          </div>
+          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
+            <IoCallOutline />
+          </div>
+          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
+            <IoSettingsOutline />
+          </div>
+        </div>
+        <div className="w-full h-[120px] flex flex-col gap-2 items-center py-4 ">
+          <div
+            className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white"
+            onClick={() => handleDarkMode()}
+          >
+            {isDark ? <MdOutlineDarkMode /> : <MdDarkMode />}{' '}
+          </div>
+          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
+            <img
+              src="https://image.gambarpng.id/pngs/gambar-transparent-boy-cartoon-illustration_46930.png"
+              alt="profile"
+              className="w-[30px] h-[30px] rounded-full"
             />
-          </span>
+          </div>
         </div>
       </div>
-      {/* Chat */}
-      <div className="w-full h-[82%] overflow-y-scroll  ">
-        <div className="flex flex-col gap-1">
-          {data
-            ? data?.map((el) => {
-                const isSelected = el.id === selectedItemId
 
-                return (
-                  <div
-                    className={`h-[60px] w-full flex p-2 rounded-lg ${
-                      isSelected ? 'bg-slate-100' : ''
-                    }`}
-                    key={el.id}
-                    onClick={() => handleItemClick(el.id)}
-                  >
-                    <div className="w-[15%] flex justify-center items-center">
-                      <img
-                        src="https://image.gambarpng.id/pngs/gambar-transparent-boy-cartoon-illustration_46930.png"
-                        alt="profile"
-                        className="w-[45px] h-[45px] rounded-full"
-                      />
-                    </div>
-                    <div className="w-[85%] px-2 dark:text-white">
-                      <div className=" w-full flex justify-between ">
-                        <div>
-                          <p className="text-[15px] font-semibold">{el.nama}</p>
+      {/* Kanan */}
+      <div className="w-[85%] h-full p-3 dark:bg-bgDark">
+        {/* Headers */}
+        <div className=" w-full h-[18%]">
+          <div className="w-full h-[50px]  p-1 flex justify-between items-center ">
+            <div className="w-[80%] ">
+              <p className="text-xl font-semibold dark:text-white">Chats</p>
+            </div>
+            <div className="w-[20%] flex  text-xl font-light dark:text-white">
+              <div className="w-1/2 flex justify-center items-center ">
+                <Popover
+                  content={contentContact}
+                  title="New Chat"
+                  trigger="click"
+                  placement="bottomLeft"
+                  open={openContact}
+                  onOpenChange={handleOpenChange}
+                >
+                  <button>
+                    <FiEdit />
+                  </button>
+                </Popover>
+              </div>
+
+              <div className="w-1/2 flex justify-center items-center">
+                <Popover placement="bottomLeft" content={contentTitik3}>
+                  <HiEllipsisVertical className="text-[25px]" />
+                </Popover>
+              </div>
+            </div>
+          </div>
+          <div className={`relative w-[95%] mx-auto`}>
+            <input
+              type="text"
+              placeholder="Search or start a new chat"
+              className={`w-full py-1 pl-8 pr-4 rounded-md focus:outline-none ${
+                isDark
+                  ? 'bg-bgDark text-white'
+                  : 'bg-white dark:bg-bgDark text-black dark:text-white'
+              } border-[1px] border-slate-200`}
+            />
+            <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+              <SearchOutlined
+                className={`h-5 w-5 ${isDark ? 'text-white' : 'text-black'}`}
+              />
+            </span>
+          </div>
+        </div>
+        {/* Chat */}
+        <div className="w-full h-[82%] overflow-y-scroll  ">
+          <div className="flex flex-col gap-1">
+            {data
+              ? data?.map((el) => {
+                  const isSelected = el.id === selectedItemId
+
+                  return (
+                    <div
+                      className={`h-[60px] w-full flex p-2 rounded-lg ${
+                        isSelected ? 'bg-sky-700 text-white' : ''
+                      }`}
+                      key={el.id}
+                      onClick={() => handleItemClick(el.id)}
+                    >
+                      <div className="w-[15%] flex justify-center items-center">
+                        <img
+                          src="https://image.gambarpng.id/pngs/gambar-transparent-boy-cartoon-illustration_46930.png"
+                          alt="profile"
+                          className="w-[45px] h-[45px] rounded-full"
+                        />
+                      </div>
+                      <div className="w-[85%] px-2 dark:text-white">
+                        <div className=" w-full flex justify-between ">
+                          <div>
+                            <p className="text-[15px] font-semibold">
+                              {el.nama}
+                            </p>
+                          </div>
+                          <div>
+                            <p
+                              className={`text-[12px] font-poppins  dark:text-white ${
+                                isSelected ? 'text-white' : 'text-black'
+                              }`}
+                            >
+                              {el.jam}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-[12px] font-poppins text-slate-600 dark:text-white">
-                            {el.jam}
-                          </p>
+                        <div
+                          className={`w-full flex items-center gap-1  dark:text-white ${
+                            isSelected ? 'text-white' : 'text-black'
+                          }`}
+                        >
+                          <div>
+                            <p className="text-[13px] ">
+                              <PiChecksBold />
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-[13px] ">
+                              {potongString(el.last, 25)}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <div className=" w-full flex items-center gap-1 text-slate-600 dark:text-white">
-                        <div>
-                          <p className="text-[13px] ">
-                            <PiChecksBold />
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-[13px] ">
-                            {potongString(el.last, 35)}
-                          </p>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                )
-              })
-            : null}
+                  )
+                })
+              : null}
+          </div>
         </div>
       </div>
     </div>

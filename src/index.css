@@ -5,7 +5,7 @@
 
 /* Mengatur lebar scrollbar menjadi lebih tipis */
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 0px;
 }
 
 /* Mengatur thumb (gagang scrollbar) menjadi lebih tipis dan berwarna */
