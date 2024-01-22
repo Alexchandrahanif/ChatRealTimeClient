@@ -81,6 +81,24 @@ const ChatPage = () => {
     </div>
   )
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault() // Mencegah perilaku default (mengirim formulir)
+      if (e.shiftKey) {
+        // Jika Shift + Enter ditekan, tambahkan baris baru
+        setText((prevText) => prevText + '\n')
+      } else if (text.trim() !== '') {
+        // Mengirim pesan jika teks tidak kosong
+        // Gantilah logika berikut dengan aksi pengiriman pesan sesuai kebutuhan Anda
+        console.log('Mengirim pesan:', text)
+        setText('') // Membersihkan input setelah mengirim pesan
+      } else {
+        // Memberikan pesan atau tindakan lain ketika teks kosong
+        console.log('Teks pesan kosong')
+      }
+    }
+  }
+
   return (
     <div className="w-full h-full flex flex-col justify-between border-l-[1.5px] border-slate-200 ">
       {/* Header */}
@@ -155,9 +173,8 @@ const ChatPage = () => {
             autoComplete="off"
             className={`w-full focus:outline-none placeholder:text-[15px] text-[15px] `}
             value={text}
-            onChange={(e) => {
-              setText(e.target.value)
-            }}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
 

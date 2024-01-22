@@ -7,13 +7,20 @@ import { PiChecksBold } from 'react-icons/pi'
 import { CiLogout } from 'react-icons/ci'
 import { RiContactsBookLine, RiContactsBookFill } from 'react-icons/ri'
 import { HiEllipsisVertical } from 'react-icons/hi2'
-import { MdDarkMode, MdOutlineDarkMode, MdManageAccounts } from 'react-icons/md'
+import {
+  MdDarkMode,
+  MdOutlineDarkMode,
+  MdManageAccounts,
+  MdFullscreenExit,
+  MdOutlineFullscreen,
+} from 'react-icons/md'
 import {
   IoChatbubbleEllipsesOutline,
   IoChatbubblesOutline,
   IoCallOutline,
   IoSettingsOutline,
 } from 'react-icons/io5'
+import { LuPlusSquare } from 'react-icons/lu'
 
 import { useNavigate } from 'react-router-dom'
 import potongString from '../utils/String'
@@ -117,12 +124,38 @@ let dataContact = [
   },
 ]
 
+let dataMenu = [
+  {
+    id: 1,
+    nama: 'Chat',
+    logo: <IoChatbubbleEllipsesOutline />,
+  },
+  {
+    id: 2,
+    nama: 'Group',
+    logo: <IoChatbubblesOutline />,
+  },
+  {
+    id: 4,
+    nama: 'Panggilan',
+    logo: <IoCallOutline />,
+  },
+  {
+    id: 5,
+    nama: 'Setting',
+    logo: <IoSettingsOutline />,
+  },
+]
+
 const Sidabar = () => {
   const navigate = useNavigate()
 
   const [selectedItemId, setSelectedItemId] = useState(null)
+  const [selectedMenuId, setSelectedMenuId] = useState(1)
   const [isDark, setIsDark] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const [openContact, setOpenContact] = useState(false)
+  const [menu, setMenu] = useState('Chat')
 
   const handleOpenChange = (newOpen) => {
     setOpenContact(newOpen)
@@ -140,9 +173,22 @@ const Sidabar = () => {
     }
   }
 
-  const handleItemClick = (id) => {
+  const handleItemChat = (id) => {
     navigate(`/${id}`)
     setSelectedItemId(id)
+    setSelectedItemId(null)
+  }
+
+  let handleClickContact = (id) => {
+    navigate(`/${id}`)
+    setSelectedItemId(id)
+    setSelectedMenuId(1)
+    setMenu('Chat')
+  }
+
+  const handleItemMenu = (id, nama) => {
+    setSelectedMenuId(id)
+    setMenu(nama)
   }
 
   const handleLogout = () => {
@@ -153,10 +199,31 @@ const Sidabar = () => {
     navigate('/login')
   }
 
-  const contentTitik3 = (
+  const toggleFullscreen = () => {
+    const element = document.documentElement
+
+    if (!document.fullscreenElement) {
+      element.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`)
+      })
+      setIsFullscreen(true)
+    } else {
+      document.exitFullscreen()
+      setIsFullscreen(false)
+    }
+  }
+
+  const contentTitikChat = (
     <div className={`flex flex-col w-[90px] gap-1 `}>
       <button
-        className="p-1 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-sky-700 hover:text-white"
+        className="px-2 py-2 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-sky-700 hover:text-white"
+        onClick={toggleFullscreen}
+      >
+        {isFullscreen ? <MdOutlineFullscreen /> : <MdFullscreenExit />}
+        {isFullscreen ? 'Normal' : 'Full'}
+      </button>
+      <button
+        className="px-2 py-2 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-sky-700 hover:text-white"
         onClick={() => handleLogout()}
       >
         <FiLogOut /> Logout
@@ -164,12 +231,23 @@ const Sidabar = () => {
     </div>
   )
 
+  const contentTitikContact = (
+    <div className={`flex flex-col w-[90px] gap-1 `}>
+      <button
+        className="py-1 px-2 flex items-center  h-[32px] font-medium cursor-pointer  rounded-md  gap-1 hover:bg-sky-700 hover:text-white"
+        onClick={() => {}}
+      >
+        <LuPlusSquare /> Contact
+      </button>
+    </div>
+  )
+
   const contentContact = (
     <div className="w-[250px]">
       <div className="w-full">
-        <Input placeholder="Search user" size="small" />
+        <Input placeholder="Search user" size="small" className="mt-2" />
       </div>
-      <div className="w-full mt-5 flex flex-col h-[400px] overflow-y-scroll">
+      <div className="w-full mt-3 flex flex-col h-[400px] overflow-y-scroll">
         {dataContact
           ? dataContact.map((el) => {
               return (
@@ -225,22 +303,23 @@ const Sidabar = () => {
             <img src={Logo} alt="Logo" />
           </div>
         </div>
-        <div className="w-full h-full flex flex-col justify-start items-center gap-2 ">
-          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
-            <IoChatbubbleEllipsesOutline />
-          </div>
-          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
-            <IoChatbubblesOutline />
-          </div>
-          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
-            <RiContactsBookLine />
-          </div>
-          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
-            <IoCallOutline />
-          </div>
-          <div className="w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white ">
-            <IoSettingsOutline />
-          </div>
+        <div
+          className={`w-full h-full flex flex-col justify-start items-center gap-2`}
+        >
+          {dataMenu?.map((el) => {
+            const isSelected = el.id === selectedMenuId
+            return (
+              <div
+                key={el.id}
+                className={`w-[40px] h-[40px] rounded-md flex justify-center items-center text-[20px] hover:bg-sky-800 hover:text-white dark:text-white  ${
+                  isSelected ? 'bg-sky-700 text-white' : ''
+                }`}
+                onClick={() => handleItemMenu(el.id, el.nama)}
+              >
+                {el.logo}
+              </div>
+            )
+          })}
         </div>
         <div className="w-full h-[120px] flex flex-col gap-2 items-center py-4 ">
           <div
@@ -260,108 +339,103 @@ const Sidabar = () => {
       </div>
 
       {/* Kanan */}
-      <div className="w-[85%] h-full p-3 dark:bg-bgDark">
-        {/* Headers */}
-        <div className=" w-full h-[18%]">
-          <div className="w-full h-[50px]  p-1 flex justify-between items-center ">
-            <div className="w-[80%] ">
-              <p className="text-xl font-semibold dark:text-white">Chats</p>
-            </div>
-            <div className="w-[20%] flex  text-xl font-light dark:text-white">
-              <div className="w-1/2 flex justify-center items-center ">
-                <Popover
-                  content={contentContact}
-                  title="New Chat"
-                  trigger="click"
-                  placement="bottomLeft"
-                  open={openContact}
-                  onOpenChange={handleOpenChange}
-                >
-                  <button>
-                    <FiEdit />
-                  </button>
-                </Popover>
-              </div>
 
-              <div className="w-1/2 flex justify-center items-center">
-                <Popover placement="bottomLeft" content={contentTitik3}>
-                  <HiEllipsisVertical className="text-[25px]" />
-                </Popover>
+      {menu == 'Chat' ? (
+        <div className="w-[85%] h-full px-3 dark:bg-bgDark">
+          <div className=" w-full h-[17%]">
+            <div className="w-full h-[50px]  p-1 flex justify-between items-center ">
+              <div className="w-[80%] ">
+                <p className="text-xl font-semibold dark:text-white">Chats</p>
+              </div>
+              <div className="w-[20%] flex  text-xl font-light dark:text-white">
+                <div className="w-1/2 flex justify-center items-center ">
+                  <Popover
+                    content={contentContact}
+                    title="New Chat"
+                    trigger="click"
+                    placement="bottomLeft"
+                    open={openContact}
+                    onOpenChange={handleOpenChange}
+                  >
+                    <button>
+                      <FiEdit />
+                    </button>
+                  </Popover>
+                </div>
+
+                <div className="w-1/2 flex justify-center items-center">
+                  <Popover placement="bottomLeft" content={contentTitikChat}>
+                    <HiEllipsisVertical className="text-[25px]" />
+                  </Popover>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={`relative w-[95%] mx-auto`}>
-            <input
-              type="text"
-              placeholder="Search or start a new chat"
-              className={`w-full py-1 pl-8 pr-4 rounded-md focus:outline-none ${
-                isDark
-                  ? 'bg-bgDark text-white'
-                  : 'bg-white dark:bg-bgDark text-black dark:text-white'
-              } border-[1px] border-slate-200`}
-            />
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
-              <SearchOutlined
-                className={`h-5 w-5 ${isDark ? 'text-white' : 'text-black'}`}
+            <div className={`relative w-[95%] mx-auto`}>
+              <input
+                type="text"
+                placeholder="Search or start a new chat"
+                className={`w-full py-1 pl-8 pr-4 rounded-md focus:outline-none ${
+                  isDark
+                    ? 'bg-bgDark text-white'
+                    : 'bg-white dark:bg-bgDark text-black dark:text-white'
+                } border-[1px] border-slate-200`}
               />
-            </span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                <SearchOutlined
+                  className={`h-5 w-5 ${isDark ? 'text-white' : 'text-black'}`}
+                />
+              </span>
+            </div>
           </div>
-        </div>
-        {/* Chat */}
-        <div className="w-full h-[82%] overflow-y-scroll  ">
-          <div className="flex flex-col gap-1">
-            {data
-              ? data?.map((el) => {
-                  const isSelected = el.id === selectedItemId
+          <div className="w-full h-[83%] overflow-y-scroll  ">
+            <div className="flex flex-col gap-1">
+              {data?.map((el) => {
+                const isSelected = el.id === selectedItemId
 
-                  return (
-                    <div
-                      className={`h-[60px] w-full flex p-2 rounded-lg ${
-                        isSelected ? 'bg-sky-700 text-white' : ''
-                      } hover:bg-sky-600 hover:text-white`}
-                      key={el.id}
-                      onClick={() => handleItemClick(el.id)}
-                    >
-                      <div className="w-[15%] flex justify-center items-center">
-                        <img
-                          src="https://image.gambarpng.id/pngs/gambar-transparent-boy-cartoon-illustration_46930.png"
-                          alt="profile"
-                          className="w-[45px] h-[45px] rounded-full"
-                        />
-                      </div>
-                      <div className="w-[85%] px-2 dark:text-white">
-                        <div className=" w-full flex justify-between ">
-                          <div>
-                            <p className="text-[15px] font-semibold">
-                              {el.nama}
-                            </p>
-                          </div>
-                          <div>
-                            <p className={`text-[12px] font-poppins`}>
-                              {el.jam}
-                            </p>
-                          </div>
+                return (
+                  <div
+                    className={`h-[60px] w-full flex py-2 px-3 rounded-lg ${
+                      isSelected ? 'bg-sky-700 text-white' : ''
+                    } hover:bg-sky-600 hover:text-white`}
+                    key={el.id}
+                    onClick={() => handleItemChat(el.id)}
+                  >
+                    <div className="w-[15%] flex justify-center items-center">
+                      <img
+                        src="https://image.gambarpng.id/pngs/gambar-transparent-boy-cartoon-illustration_46930.png"
+                        alt="profile"
+                        className="w-[45px] h-[45px] rounded-full"
+                      />
+                    </div>
+                    <div className="w-[85%] px-2 dark:text-white">
+                      <div className=" w-full flex justify-between ">
+                        <div>
+                          <p className="text-[15px] font-semibold">{el.nama}</p>
                         </div>
-                        <div className={`w-full flex items-center gap-1`}>
-                          <div>
-                            <p className="text-[13px] ">
-                              <PiChecksBold />
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-[13px] ">
-                              {potongString(el.last, 25)}
-                            </p>
-                          </div>
+                        <div>
+                          <p className={`text-[12px] font-poppins`}>{el.jam}</p>
+                        </div>
+                      </div>
+                      <div className={`w-full flex items-center gap-1`}>
+                        <div>
+                          <p className="text-[13px] ">
+                            <PiChecksBold />
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-[13px] ">
+                            {potongString(el.last, 25)}
+                          </p>
                         </div>
                       </div>
                     </div>
-                  )
-                })
-              : null}
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }

@@ -16,7 +16,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [about, setAbout] = useState('')
+  const [about, setAbout] = useState('Available')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
