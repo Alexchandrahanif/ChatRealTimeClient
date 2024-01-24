@@ -21,7 +21,6 @@ const ProfilePage = () => {
       >
         Toggle Fullscreen
       </button>
-      {/* Konten aplikasi lainnya */}
     </div>
   )
 }
