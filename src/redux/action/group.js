@@ -1,11 +1,11 @@
 import axios from 'axios'
 const BaseUrl = 'http://localhost:3000'
 
-export function getAllContactPersonal() {
+export function getAllGroupPersonal() {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/contact/personal`,
+        url: `${BaseUrl}/group/personal`,
         method: 'GET',
         headers: {
           authorization: localStorage.getItem('authorization'),
@@ -13,7 +13,7 @@ export function getAllContactPersonal() {
       })
 
       dispatch({
-        type: 'Fetch/GetAllContactPersonal',
+        type: 'Fetch/GetAllGroupPersonal',
         payload: data.data,
       })
     } catch (error) {
@@ -22,11 +22,11 @@ export function getAllContactPersonal() {
   }
 }
 
-export function getAllContact() {
+export function getOneGroup(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/contact`,
+        url: `${BaseUrl}/group/${id}`,
         method: 'GET',
         headers: {
           authorization: localStorage.getItem('authorization'),
@@ -34,7 +34,7 @@ export function getAllContact() {
       })
 
       dispatch({
-        type: 'Fetch/GetAllContact',
+        type: 'Fetch/GetOneGroup',
         payload: data.data,
       })
     } catch (error) {
@@ -43,32 +43,11 @@ export function getAllContact() {
   }
 }
 
-export function getOneContact(id) {
+export function createGroup(data) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/contact/${id}`,
-        method: 'GET',
-        headers: {
-          authorization: localStorage.getItem('authorization'),
-        },
-      })
-
-      dispatch({
-        type: 'Fetch/GetOneContact',
-        payload: data.data,
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
-export function createContact(data) {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios({
-        url: `${BaseUrl}/contact`,
+        url: `${BaseUrl}/group`,
         method: 'POST',
         headers: {
           authorization: localStorage.getItem('authorization'),
@@ -76,7 +55,7 @@ export function createContact(data) {
         data,
       })
 
-      dispatch(getAllContactPersonal())
+      dispatch(getAllGroupPersonal())
       return data
     } catch (error) {
       console.log(error)
@@ -84,11 +63,11 @@ export function createContact(data) {
   }
 }
 
-export function updateContact(id, data) {
+export function updateGroup(id, data) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/contact/${id}`,
+        url: `${BaseUrl}/group/${id}`,
         method: 'PATCH',
         headers: {
           authorization: localStorage.getItem('authorization'),
@@ -96,7 +75,7 @@ export function updateContact(id, data) {
         data,
       })
 
-      dispatch(getAllContactPersonal())
+      dispatch(getAllGroupPersonal())
       return data
     } catch (error) {
       console.log(error)
@@ -104,18 +83,18 @@ export function updateContact(id, data) {
   }
 }
 
-export function deleteContact(id) {
+export function deleteGroup(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/contact${id}`,
+        url: `${BaseUrl}/group/${id}`,
         method: 'DELETE',
         headers: {
           authorization: localStorage.getItem('authorization'),
         },
       })
 
-      dispatch(getAllContactPersonal())
+      dispatch(getAllGroupPersonal())
       return data
     } catch (error) {
       console.log(error)
