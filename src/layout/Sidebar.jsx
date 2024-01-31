@@ -1,5 +1,5 @@
-import { Input, Popover, Tooltip, message } from 'antd'
-import React, { useState } from 'react'
+import { Input, Popover, Tooltip, message, Button, Modal } from 'antd'
+import React, { useEffect, useState } from 'react'
 
 import { SearchOutlined } from '@ant-design/icons'
 import { FiEdit, FiLogOut } from 'react-icons/fi'
@@ -7,6 +7,8 @@ import { PiChecksBold } from 'react-icons/pi'
 import { CiLogout } from 'react-icons/ci'
 import { RiContactsBookLine, RiContactsBookFill } from 'react-icons/ri'
 import { HiEllipsisVertical } from 'react-icons/hi2'
+import { IoPersonAdd } from 'react-icons/io5'
+
 import {
   MdDarkMode,
   MdOutlineDarkMode,
@@ -25,6 +27,10 @@ import { LuPlusSquare } from 'react-icons/lu'
 import { useNavigate } from 'react-router-dom'
 import potongString from '../utils/String'
 import { Logo } from '../assets'
+import axios from 'axios'
+import { createContact, getAllContactPersonal } from '../redux/action/contact'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 let data = [
   {
@@ -149,6 +155,7 @@ let dataMenu = [
 
 const Sidabar = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [selectedItemId, setSelectedItemId] = useState(null)
   const [selectedMenuId, setSelectedMenuId] = useState(1)
@@ -156,6 +163,8 @@ const Sidabar = () => {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [openContact, setOpenContact] = useState(false)
   const [menu, setMenu] = useState('Chat')
+
+  const [openAddContact, setOpenAddContact] = useState(false)
 
   const handleOpenChange = (newOpen) => {
     setOpenContact(newOpen)
@@ -173,6 +182,10 @@ const Sidabar = () => {
     }
   }
 
+  const { ContactPersonal } = useSelector((state) => state.ContactReducer)
+  const [username, setUsername] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+
   const handleItemChat = (id) => {
     navigate(`/${id}`)
     setSelectedItemId(id)
@@ -189,6 +202,30 @@ const Sidabar = () => {
   const handleItemMenu = (id, nama) => {
     setSelectedMenuId(id)
     setMenu(nama)
+  }
+
+  const handleAddContact = async () => {
+    const data = {
+      username,
+      phoneNumber,
+    }
+    await dispatch(createContact(data))
+      .then((data) =>
+        message.loading('Loading', 1, () => {
+          if (data?.statusCode == 201) {
+            message.success(data.message, 1, () => {
+              dispatch(getAllContactPersonal())
+              setOpenAddContact(false)
+              setUsername('')
+              setPhoneNumber('')
+              dispatch(getAllContactPersonal())
+            })
+          } else {
+            message.error(data?.response.data.message)
+          }
+        })
+      )
+      .catch((error) => console.log(error))
   }
 
   const handleLogout = () => {
@@ -244,19 +281,31 @@ const Sidabar = () => {
 
   const contentContact = (
     <div className="w-[250px]">
-      <div className="w-full">
-        <Input placeholder="Search user" size="small" className="mt-2" />
+      <div className="w-full flex justify-evenly items-center">
+        <Input
+          placeholder="Search user"
+          size="small"
+          className="w-[80%] h-[25px]"
+        />
+        <button
+          className="py-1 px-2 h-[25px] rounded-md text-[20px] hover:bg-slate-200 flex jus items-center"
+          onClick={() => {
+            setOpenAddContact(true), setOpenContact(false)
+          }}
+        >
+          <IoPersonAdd />
+        </button>
       </div>
       <div className="w-full mt-3 flex flex-col h-[400px] overflow-y-scroll">
-        {dataContact
-          ? dataContact.map((el) => {
+        {ContactPersonal
+          ? ContactPersonal.map((el) => {
               return (
                 <div key={el.id}>
                   <div
                     className={`h-[60px] w-full flex p-2 rounded-lg hover:bg-slate-100`}
                     key={el.id}
                     onClick={() => {
-                      message.success(`Mulai chat dengan ${el.nama}`)
+                      message.success(`Mulai chat dengan ${el.username}`)
                     }}
                   >
                     <div className="w-[20%] flex justify-center items-center">
@@ -269,7 +318,9 @@ const Sidabar = () => {
                     <div className="w-[80%] px-2 ">
                       <div className=" w-full flex justify-between ">
                         <div>
-                          <p className="text-[15px] font-semibold">{el.nama}</p>
+                          <p className="text-[15px] font-semibold">
+                            {el.username}
+                          </p>
                         </div>
                         <div>
                           <p className="text-[12px] font-poppins text-slate-600 ">
@@ -280,7 +331,7 @@ const Sidabar = () => {
                       <div className=" w-full flex items-center gap-1 text-slate-600 ">
                         <div>
                           <p className="text-[13px] ">
-                            {potongString(el.about, 35)}
+                            {potongString(el.Teman.about, 35)}
                           </p>
                         </div>
                       </div>
@@ -293,6 +344,10 @@ const Sidabar = () => {
       </div>
     </div>
   )
+
+  useEffect(() => {
+    dispatch(getAllContactPersonal())
+  }, [])
 
   return (
     <div className=" flex w-full h-full dark:bg-bgDark">
@@ -339,7 +394,6 @@ const Sidabar = () => {
       </div>
 
       {/* Kanan */}
-
       {menu == 'Chat' ? (
         <div className="w-[85%] h-full px-3 dark:bg-bgDark">
           <div className=" w-full h-[17%]">
@@ -436,6 +490,29 @@ const Sidabar = () => {
           </div>
         </div>
       ) : null}
+
+      {/* Modal Add Contact */}
+      <Modal
+        title="Tambah Kontak"
+        visible={openAddContact}
+        onCancel={() => setOpenAddContact(false)}
+        onOk={handleAddContact}
+        width={400}
+      >
+        <Input
+          placeholder="Username"
+          autoComplete="off"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Input
+          placeholder="Phone Number"
+          autoComplete="off"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          style={{ marginTop: '10px' }}
+        />
+      </Modal>
     </div>
   )
 }

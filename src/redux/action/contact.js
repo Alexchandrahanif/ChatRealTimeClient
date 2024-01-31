@@ -64,7 +64,7 @@ export function getOneContact(id) {
   }
 }
 
-export function createContact(data) {
+export function createContact(body) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
@@ -73,13 +73,12 @@ export function createContact(data) {
         headers: {
           authorization: localStorage.getItem('authorization'),
         },
-        data,
+        data: body,
       })
 
-      dispatch(getAllContactPersonal())
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
