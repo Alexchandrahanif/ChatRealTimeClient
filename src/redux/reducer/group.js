@@ -1,6 +1,7 @@
 let initialState = {
   GroupPersonal: [],
   Group: {},
+  Members: {},
 }
 
 export function GroupReducer(state = initialState, actions) {
@@ -16,6 +17,11 @@ export function GroupReducer(state = initialState, actions) {
         GroupPersonal: actions.payload,
       }
     case 'Fetch/GetOneGroup':
+      return {
+        ...state,
+        Group: actions.payload,
+      }
+    case 'Fetch/GetOneMember':
       return {
         ...state,
         Group: actions.payload,
