@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
       },
       {
-        path: '/:id',
+        path: '/:phoneNumber',
         element: <ChatPage />,
       },
     ],

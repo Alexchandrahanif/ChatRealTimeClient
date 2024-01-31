@@ -305,7 +305,8 @@ const Sidabar = () => {
                     className={`h-[60px] w-full flex p-2 rounded-lg hover:bg-slate-100`}
                     key={el.id}
                     onClick={() => {
-                      message.success(`Mulai chat dengan ${el.username}`)
+                      navigate(`/${el.Teman.phoneNumber}`)
+                      setOpenContact(false)
                     }}
                   >
                     <div className="w-[20%] flex justify-center items-center">

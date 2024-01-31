@@ -22,19 +22,25 @@ import {
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { VscSend } from 'react-icons/vsc'
 import { message, Popover } from 'antd'
+import { useDispatch } from 'react-redux'
+import { getOneContact } from '../redux/action/contact'
+import { useSelector } from 'react-redux'
 
 const ChatPage = () => {
-  const { id } = useParams()
+  const dispatch = useDispatch()
+  const { phoneNumber } = useParams()
 
   let dark = localStorage.getItem('darkmode')
-
-  const [text, setText] = useState('')
   const [openStiker, setOpenStiker] = useState(false)
   const [openClip, setOpenClip] = useState(false)
+
+  const [text, setText] = useState('')
+  const { Contact } = useSelector((state) => state.ContactReducer)
 
   const handleOpenStiker = (newOpen) => {
     setOpenStiker(newOpen)
   }
+
   const handleOpenClip = (newOpen) => {
     setOpenClip(newOpen)
   }
@@ -99,6 +105,12 @@ const ChatPage = () => {
     }
   }
 
+  useEffect(() => {
+    dispatch(getOneContact(phoneNumber))
+  }, [phoneNumber])
+
+  console.log(Contact)
+
   return (
     <div className="w-full h-full flex flex-col justify-between border-l-[1.5px] border-slate-200 ">
       {/* Header */}
@@ -114,9 +126,11 @@ const ChatPage = () => {
           </div>
           <div>
             <p className="text-[15px] font-semibold mb-[-2px]">
-              Alex Chandra Hanif
+              {Contact.username}
             </p>
-            <p className="text-[13px]  text-dark ">online/offline</p>
+            <p className="text-[13px]  text-dark ">
+              {Contact.statusActive ? 'Online' : 'Offline'}
+            </p>
           </div>
         </div>
         {/* Phone/Video */}
@@ -132,7 +146,7 @@ const ChatPage = () => {
 
       {/* Chat */}
       <div className="flex justify-center items-center">
-        <div>Chat dengan {id}</div>
+        <div>Chat dengan {phoneNumber}</div>
       </div>
 
       {/* Input Text */}
