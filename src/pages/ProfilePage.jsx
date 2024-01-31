@@ -1,26 +1,80 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import io from 'socket.io-client'
 
 const ProfilePage = () => {
-  const toggleFullscreen = () => {
-    const element = document.documentElement
+  const [imageFile, setImageFile] = useState(null)
+  const [progress, setProgress] = useState(0)
+  const [socket, setSocket] = useState(null)
 
-    if (!document.fullscreenElement) {
-      element.requestFullscreen().catch((err) => {
-        console.error(`Error attempting to enable fullscreen: ${err.message}`)
+  useEffect(() => {
+    const newSocket = io('http://localhost:5173')
+    setSocket(newSocket)
+
+    return () => {
+      newSocket.disconnect()
+    }
+  }, [])
+
+  console.log(imageFile)
+  useEffect(() => {
+    if (socket) {
+      socket.on('progress', (percentage) => {
+        setProgress(percentage)
       })
-    } else {
-      document.exitFullscreen()
+    }
+
+    return () => {
+      if (socket) {
+        socket.off('progress')
+      }
+    }
+  }, [socket])
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    setImageFile(file)
+  }
+
+  const handleUpload = async () => {
+    try {
+      const formData = new FormData()
+      formData.append('messageImage', imageFile)
+
+      const response = await axios.post(
+        'http://localhost:3000/chat',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: localStorage.getItem('authorization'),
+          },
+          onUploadProgress: (progressEvent) => {
+            const percentage = Math.round(
+              (progressEvent.loaded / progressEvent.total) * 100
+            )
+            setProgress(percentage)
+
+            if (socket) {
+              socket.emit('clientProgress', percentage)
+            }
+          },
+        }
+      )
+
+      console.log('Upload successful', response.data)
+    } catch (error) {
+      console.error('Error uploading file', error)
     }
   }
 
   return (
     <div className="container mx-auto my-4 text-center">
-      <button
-        className="bg-blue-500 text-white py-2 px-4 rounded"
-        onClick={toggleFullscreen}
-      >
-        Toggle Fullscreen
-      </button>
+      <div>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleUpload}>Upload File</button>
+        {progress > 0 && <p>Upload Progress: {progress}%</p>}
+      </div>
     </div>
   )
 }

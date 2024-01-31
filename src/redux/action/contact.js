@@ -1,11 +1,11 @@
 import axios from 'axios'
 const BaseUrl = 'http://localhost:3000'
 
-export function getAllUsers() {
+export function getAllContactPersonal() {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user`,
+        url: `${BaseUrl}/contact/personal`,
         method: 'GET',
         headers: {
           authorization: localStorage.getItem('authorization'),
@@ -13,7 +13,7 @@ export function getAllUsers() {
       })
 
       dispatch({
-        type: 'Fetch/GetAllUsers',
+        type: 'Fetch/GetAllContactPersonal',
         payload: data.data,
       })
     } catch (error) {
@@ -22,19 +22,19 @@ export function getAllUsers() {
   }
 }
 
-export function getOneUser(id) {
+export function getAllContact() {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/${id}`,
+        url: `${BaseUrl}/contact`,
         method: 'GET',
-        authorization: {
+        headers: {
           authorization: localStorage.getItem('authorization'),
         },
       })
 
       dispatch({
-        type: 'Fetch/GetOneUser',
+        type: 'Fetch/GetAllContact',
         payload: data.data,
       })
     } catch (error) {
@@ -43,38 +43,40 @@ export function getOneUser(id) {
   }
 }
 
-export function updateUser(id, data) {
+export function getOneContact(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/${id}`,
-        method: 'PATCH',
+        url: `${BaseUrl}/contact/${id}`,
+        method: 'GET',
         headers: {
           authorization: localStorage.getItem('authorization'),
         },
-        data: data,
       })
 
-      dispatch(getAllUsers())
-
-      return data
+      dispatch({
+        type: 'Fetch/GetOneContact',
+        payload: data.data,
+      })
     } catch (error) {
       console.log(error)
     }
   }
 }
 
-export function verifyCode(id, code) {
+export function createContact(data) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/verify/${id}`,
+        url: `${BaseUrl}/contact`,
         method: 'POST',
-        data: {
-          code,
+        headers: {
+          authorization: localStorage.getItem('authorization'),
         },
+        data,
       })
 
+      dispatch(getAllContactPersonal())
       return data
     } catch (error) {
       console.log(error)
@@ -82,22 +84,19 @@ export function verifyCode(id, code) {
   }
 }
 
-export function updateStatusUser(id, status) {
+export function updateContact(id, data) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/status/${id}`,
+        url: `${BaseUrl}/contact${id}`,
         method: 'PATCH',
         headers: {
           authorization: localStorage.getItem('authorization'),
         },
-        data: {
-          status,
-        },
+        data,
       })
 
-      dispatch(getAllUsers())
-
+      dispatch(getAllContactPersonal())
       return data
     } catch (error) {
       console.log(error)
@@ -105,19 +104,18 @@ export function updateStatusUser(id, status) {
   }
 }
 
-export function updateStatusUser(id, status) {
+export function deleteContact(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/${id}`,
+        url: `${BaseUrl}/contact${id}`,
         method: 'DELETE',
         headers: {
           authorization: localStorage.getItem('authorization'),
         },
       })
 
-      dispatch(getAllUsers())
-
+      dispatch(getAllContactPersonal())
       return data
     } catch (error) {
       console.log(error)

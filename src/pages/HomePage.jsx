@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import getAllUsers from '../redux/action/user'
+import { getAllUsers } from '../redux/action/user'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
