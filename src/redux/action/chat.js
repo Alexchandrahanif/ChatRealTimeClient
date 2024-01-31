@@ -1,11 +1,11 @@
 import axios from 'axios'
 const BaseUrl = 'http://localhost:3000'
 
-export function getAllUsers() {
+export function getAllChatPersonal(ReceiverId) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user`,
+        url: `${BaseUrl}/chat/personal/${ReceiverId}`,
         method: 'GET',
         headers: {
           authorization: localStorage.getItem('authorization'),
@@ -13,7 +13,7 @@ export function getAllUsers() {
       })
 
       dispatch({
-        type: 'Fetch/GetAllUsers',
+        type: 'Fetch/GetAllChatPersonal',
         payload: data.data,
       })
     } catch (error) {
@@ -22,19 +22,19 @@ export function getAllUsers() {
   }
 }
 
-export function getOneUser(id) {
+export function getOneChat(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/${id}`,
+        url: `${BaseUrl}/chat/${id}`,
         method: 'GET',
-        authorization: {
+        headers: {
           authorization: localStorage.getItem('authorization'),
         },
       })
 
       dispatch({
-        type: 'Fetch/GetOneUser',
+        type: 'Fetch/GetOneChat',
         payload: data.data,
       })
     } catch (error) {
@@ -43,36 +43,35 @@ export function getOneUser(id) {
   }
 }
 
-export function updateUser(id, data) {
+export function createChat(data) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/${id}`,
+        url: `${BaseUrl}/chat`,
+        method: 'POST',
+        headers: {
+          authorization: localStorage.getItem('authorization'),
+        },
+        data,
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function updateChat(id, data) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios({
+        url: `${BaseUrl}/chat/${id}`,
         method: 'PATCH',
         headers: {
           authorization: localStorage.getItem('authorization'),
         },
-        data: data,
-      })
-
-      dispatch(getAllUsers())
-
-      return data
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
-export function verifyCode(id, code) {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios({
-        url: `${BaseUrl}/user/verify/${id}`,
-        method: 'POST',
-        data: {
-          code,
-        },
+        data,
       })
 
       return data
@@ -82,11 +81,11 @@ export function verifyCode(id, code) {
   }
 }
 
-export function updateStatusUser(id, status) {
+export function updateStatusChat(SenderId, status) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/status/${id}`,
+        url: `${BaseUrl}/chat/status/${SenderId}`,
         method: 'PATCH',
         headers: {
           authorization: localStorage.getItem('authorization'),
@@ -96,8 +95,6 @@ export function updateStatusUser(id, status) {
         },
       })
 
-      dispatch(getAllUsers())
-
       return data
     } catch (error) {
       console.log(error)
@@ -105,18 +102,16 @@ export function updateStatusUser(id, status) {
   }
 }
 
-export function deleteUser(id, status) {
+export function deleteChat(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/${id}`,
+        url: `${BaseUrl}/chat/${id}`,
         method: 'DELETE',
         headers: {
           authorization: localStorage.getItem('authorization'),
         },
       })
-
-      dispatch(getAllUsers())
 
       return data
     } catch (error) {
