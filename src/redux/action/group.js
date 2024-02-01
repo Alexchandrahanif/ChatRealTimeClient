@@ -17,7 +17,7 @@ export function getAllGroupPersonal() {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -38,7 +38,7 @@ export function getOneGroup(id) {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -58,7 +58,7 @@ export function createGroup(data) {
       dispatch(getAllGroupPersonal())
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -78,7 +78,7 @@ export function updateGroup(id, data) {
       dispatch(getAllGroupPersonal())
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -97,7 +97,7 @@ export function deleteGroup(id) {
       dispatch(getAllGroupPersonal())
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -120,7 +120,7 @@ export function getOneMember(id) {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -139,7 +139,7 @@ export function createMember(data) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -158,7 +158,7 @@ export function updateStatusMember(GroupId, MemberId) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -176,7 +176,7 @@ export function deleteMember(GroupId, MemberId) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -194,7 +194,7 @@ export function memberLeaveGroup(GroupId, MemberId) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }

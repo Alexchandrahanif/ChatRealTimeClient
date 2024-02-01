@@ -17,7 +17,7 @@ export function getAllUsers() {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -38,7 +38,7 @@ export function getOneUser(id) {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -59,7 +59,7 @@ export function updateUser(id, data) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -77,7 +77,7 @@ export function verifyCode(id, code) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -100,7 +100,7 @@ export function updateStatusUser(id, status) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -120,7 +120,7 @@ export function deleteUser(id, status) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }

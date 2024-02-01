@@ -17,7 +17,7 @@ export function getAllContactPersonal() {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -38,7 +38,7 @@ export function getAllContact() {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -59,7 +59,7 @@ export function getOneContact(id) {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -98,7 +98,7 @@ export function updateContact(id, data) {
       dispatch(getAllContactPersonal())
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -117,7 +117,7 @@ export function deleteContact(id) {
       dispatch(getAllContactPersonal())
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }

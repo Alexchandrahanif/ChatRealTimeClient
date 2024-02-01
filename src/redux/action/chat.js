@@ -17,7 +17,7 @@ export function getAllChatPersonal(ReceiverId) {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -38,7 +38,7 @@ export function getOneChat(id) {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -57,7 +57,7 @@ export function createChat(data) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -76,7 +76,7 @@ export function updateChat(id, data) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -97,7 +97,7 @@ export function updateStatusChat(SenderId, status) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -115,7 +115,7 @@ export function deleteChat(id) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }

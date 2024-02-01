@@ -17,7 +17,7 @@ export function getAllGroupChatPersonal(GroupId) {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -38,7 +38,7 @@ export function getOneGroupChat(id) {
         payload: data.data,
       })
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -58,7 +58,7 @@ export function createGroupChat(data) {
       dispatch(getAllgroupChatPersonal())
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -77,7 +77,7 @@ export function updateGroupChat(id, data) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }
@@ -95,7 +95,7 @@ export function deleteGroupChat(id) {
 
       return data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 }

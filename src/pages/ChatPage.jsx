@@ -34,7 +34,6 @@ const ChatPage = () => {
   const [openStiker, setOpenStiker] = useState(false)
   const [openClip, setOpenClip] = useState(false)
 
-  const [text, setText] = useState('')
   const { Contact } = useSelector((state) => state.ContactReducer)
 
   const handleOpenStiker = (newOpen) => {
@@ -86,21 +85,20 @@ const ChatPage = () => {
       </button>
     </div>
   )
+  const [text, setText] = useState('')
+  const [rowsText, setRowsText] = useState(1)
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault() // Mencegah perilaku default (mengirim formulir)
+      e.preventDefault()
       if (e.shiftKey) {
-        // Jika Shift + Enter ditekan, tambahkan baris baru
         setText((prevText) => prevText + '\n')
+        setRowsText((prevRows) => prevRows + 1)
       } else if (text.trim() !== '') {
-        // Mengirim pesan jika teks tidak kosong
-        // Gantilah logika berikut dengan aksi pengiriman pesan sesuai kebutuhan Anda
-        console.log('Mengirim pesan:', text)
-        setText('') // Membersihkan input setelah mengirim pesan
+        setText('')
+        setRowsText(1)
       } else {
-        // Memberikan pesan atau tindakan lain ketika teks kosong
-        console.log('Teks pesan kosong')
+        message.success('Teks pesan kosong')
       }
     }
   }
@@ -108,8 +106,6 @@ const ChatPage = () => {
   useEffect(() => {
     dispatch(getOneContact(phoneNumber))
   }, [phoneNumber])
-
-  console.log(Contact)
 
   return (
     <div className="w-full h-full flex flex-col justify-between border-l-[1.5px] border-slate-200 ">
@@ -150,9 +146,9 @@ const ChatPage = () => {
       </div>
 
       {/* Input Text */}
-      <div className="h-[8%]  flex justify-between border-[1px] border-t-slate-200">
+      <div className=" min-h-[8%] max-h-[16%]  flex justify-between border-[1px] border-t-slate-200 py-1">
         {/* Emot dan PaperClip */}
-        <div className=" h-full w-[14%] flex justify-between items-center px-3 py-1 ">
+        <div className="  w-[14%] flex justify-between items-center px-3 py-1 ">
           <Popover
             content={contentStiker}
             title="Emoji"
@@ -181,11 +177,17 @@ const ChatPage = () => {
 
         {/* Inputan */}
         <div className="w-full flex justify-center items-center">
-          <input
+          <textarea
             type="text"
             placeholder="Type a message"
             autoComplete="off"
-            className={`w-full focus:outline-none placeholder:text-[15px] text-[15px] `}
+            rows={rowsText}
+            className={`w-full focus:outline-none placeholder:text-[15px] text-[15px]`}
+            style={{
+              overflowY: rowsText > 4 ? 'scroll' : 'auto',
+              maxHeight: rowsText > 4 ? '80px' : 'none',
+              boxSizing: 'border-box',
+            }}
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -193,9 +195,9 @@ const ChatPage = () => {
         </div>
 
         {/* Microfon/send */}
-        <div className="w-[9%] h-full flex  items-center  py-1">
+        <div className="w-[9%] flex  items-center  py-1">
           <div
-            className=" h-full w-[50px] text-[21px] flex justify-center items-center  hover:cursor-pointer hover:bg-slate-200 rounded-md"
+            className=" w-[50px] text-[21px] flex justify-center items-center  hover:cursor-pointer hover:bg-slate-200 rounded-md"
             onClick={() => {
               message.success('Mulai Merekam')
             }}
