@@ -43,7 +43,7 @@ export function getOneChat(id) {
   }
 }
 
-export function createChat(data) {
+export function createChat(body) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
@@ -52,7 +52,7 @@ export function createChat(data) {
         headers: {
           authorization: localStorage.getItem('authorization'),
         },
-        data,
+        data: body,
       })
 
       return data

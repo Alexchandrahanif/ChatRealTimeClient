@@ -218,7 +218,6 @@ const Sidabar = () => {
               setOpenAddContact(false)
               setUsername('')
               setPhoneNumber('')
-              dispatch(getAllContactPersonal())
             })
           } else {
             message.error(data?.response.data.message)

@@ -25,6 +25,8 @@ import { message, Popover } from 'antd'
 import { useDispatch } from 'react-redux'
 import { getOneContact } from '../redux/action/contact'
 import { useSelector } from 'react-redux'
+import { createChat } from '../redux/action/chat'
+import { getOneUser } from '../redux/action/user'
 
 const ChatPage = () => {
   const dispatch = useDispatch()
@@ -35,6 +37,7 @@ const ChatPage = () => {
   const [openClip, setOpenClip] = useState(false)
 
   const { Contact } = useSelector((state) => state.ContactReducer)
+  const { User } = useSelector((state) => state.UserReducer)
 
   const handleOpenStiker = (newOpen) => {
     setOpenStiker(newOpen)
@@ -85,8 +88,30 @@ const ChatPage = () => {
       </button>
     </div>
   )
+
   const [text, setText] = useState('')
   const [rowsText, setRowsText] = useState(1)
+
+  const sendMessage = async () => {
+    let body = {
+      ReceiverId: Contact.Teman.id,
+      message: text,
+    }
+
+    await dispatch(createChat(body))
+      .then((data) =>
+        message.loading('Loading', 1, () => {
+          if (data?.statusCode == 201) {
+            message.success(data.message, 1, () => {
+              setText('')
+            })
+          } else {
+            console.log()
+          }
+        })
+      )
+      .catch((error) => console.log(error))
+  }
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -95,8 +120,10 @@ const ChatPage = () => {
         setText((prevText) => prevText + '\n')
         setRowsText((prevRows) => prevRows + 1)
       } else if (text.trim() !== '') {
+        sendMessage(e)
         setText('')
         setRowsText(1)
+        message.success(text)
       } else {
         message.success('Teks pesan kosong')
       }
@@ -105,6 +132,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     dispatch(getOneContact(phoneNumber))
+    dispatch(getOneUser(phoneNumber))
   }, [phoneNumber])
 
   return (
@@ -125,7 +153,7 @@ const ChatPage = () => {
               {Contact.username}
             </p>
             <p className="text-[13px]  text-dark ">
-              {Contact.statusActive ? 'Online' : 'Offline'}
+              {User.statusActive == true ? 'Online' : 'Offline'}
             </p>
           </div>
         </div>
@@ -148,7 +176,7 @@ const ChatPage = () => {
       {/* Input Text */}
       <div className=" min-h-[8%] max-h-[16%]  flex justify-between border-[1px] border-t-slate-200 py-1">
         {/* Emot dan PaperClip */}
-        <div className="  w-[14%] flex justify-between items-center px-3 py-1 ">
+        <div className="  w-[14%] flex justify-between items-center px-3  ">
           <Popover
             content={contentStiker}
             title="Emoji"
@@ -195,11 +223,11 @@ const ChatPage = () => {
         </div>
 
         {/* Microfon/send */}
-        <div className="w-[9%] flex  items-center  py-1">
+        <div className="w-[9%] flex  items-center ">
           <div
-            className=" w-[50px] text-[21px] flex justify-center items-center  hover:cursor-pointer hover:bg-slate-200 rounded-md"
+            className=" w-[50px] h-full text-[21px] flex justify-center items-center  hover:cursor-pointer hover:bg-slate-200 rounded-md"
             onClick={() => {
-              message.success('Mulai Merekam')
+              text == '' ? message.success('Merekan') : sendMessage()
             }}
           >
             {text == '' ? <HiMiniMicrophone /> : <VscSend />}

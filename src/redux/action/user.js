@@ -22,13 +22,13 @@ export function getAllUsers() {
   }
 }
 
-export function getOneUser(id) {
+export function getOneUser(phoneNumber) {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        url: `${BaseUrl}/user/${id}`,
+        url: `${BaseUrl}/user/${phoneNumber}`,
         method: 'GET',
-        authorization: {
+        headers: {
           authorization: localStorage.getItem('authorization'),
         },
       })
